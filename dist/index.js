@@ -1,75 +1,37 @@
 "use strict";
-// class GetTaskTitle {
-//   title: string|null
-//   parentId = null
-//   id: number
-//   constructor(){
-//     this.id = 1
-//     this.title = ""
-//   }
-//   getTitle(): string|null{
-//     let taskTitle = prompt('Enter your task title: ')
-//     this.title = taskTitle
-//     return this.title
-//   }
-// }
-// let taskTitle = new GetTaskTitle()
-// console.log(taskTitle.getTitle());
-// class CheckTaskValidity {
-//   task: string|null
-//   constructor(){
-//     this.task = ''
-//     if(taskTitle.title !== ""){
-//       this.task = taskTitle.title
-//     }else{
-//       throw new Error('enter a valid task title')
-//     }
-//   }
-// }
-// let checkedTask = new CheckTaskValidity()
-// console.log(checkedTask.task);
-// class StoreTask {
-//   taskArray: (string|null)[]
-//   constructor(){
-//     this.taskArray = []
-//     this.taskArray.push(checkedTask.task)
-//   }
-//   storeToLocalStorage(){
-//     localStorage.setItem("taskArray", JSON.stringify(this.taskArray))
-//   }
-//   getStoredItems(){
-//     return localStorage.getItem("taskArray")
-//   }
-// }
-// let store = new StoreTask()
-// console.log(store.getStoredItems());
-class Tasks {
-    constructor() {
-        this.parentId = null;
-        this.id = 1;
-        this.title = "";
-        this.task = "";
-        this.taskArray = [];
+function getTask() {
+    let titleTaskInputed = prompt("Enter a task title: ");
+    titleTaskInputed;
+    if (titleTaskInputed !== "") {
+        return titleTaskInputed;
     }
-    getTaskTitle() {
-        let taskTitle = prompt('Enter your task title: ');
-        return this.title = taskTitle;
-    }
-    CheckTaskValidity() {
-        if (this.title !== "") {
-            return this.task = this.title;
-        }
-    }
-    storeTasks() {
-        this.taskArray.push(this.task);
-        localStorage.setItem("taskArray", JSON.stringify(this.taskArray));
-    }
-    getTasks() {
-        return localStorage.getItem("taskArray");
+    else {
+        throw new Error('enter a valid task title');
     }
 }
-let tasks = new Tasks();
-console.log(tasks.getTaskTitle());
-console.log(tasks.CheckTaskValidity());
-console.log(tasks.storeTasks());
-console.log(tasks.getTasks());
+let taskName = getTask();
+class Task {
+    constructor() {
+        this.parentId = null;
+        this.id = 0;
+        this.title = null;
+    }
+    toJson() {
+        return {
+            parentId: this.parentId,
+            id: this.id,
+            title: this.title
+        };
+    }
+}
+let task = new Task();
+// put all these task callings in a function
+task.id = task.id++;
+task.parentId = null;
+task.title = taskName;
+const taskJSON = task.toJson();
+console.log(taskJSON);
+localStorage.setItem("taskJson", JSON.stringify(taskJSON));
+const store = localStorage.getItem("taskJson");
+const taskStore = JSON.parse(store);
+console.log(typeof store, taskStore);

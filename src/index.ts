@@ -1,83 +1,46 @@
-
-// class GetTaskTitle {
-//   title: string|null
-//   parentId = null
-//   id: number
-//   constructor(){
-//     this.id = 1
-//     this.title = ""
-//   }
-//   getTitle(): string|null{
-//     let taskTitle = prompt('Enter your task title: ')
-//     this.title = taskTitle
-//     return this.title
-//   }
-// }
-// let taskTitle = new GetTaskTitle()
-// console.log(taskTitle.getTitle());
-
-// class CheckTaskValidity {
-//   task: string|null
-//   constructor(){
-//     this.task = ''
-//     if(taskTitle.title !== ""){
-//       this.task = taskTitle.title
-//     }else{
-//       throw new Error('enter a valid task title')
-//     }
-//   }
-// }
-// let checkedTask = new CheckTaskValidity()
-// console.log(checkedTask.task);
-
-// class StoreTask {
-//   taskArray: (string|null)[]
-//   constructor(){
-//     this.taskArray = []
-//     this.taskArray.push(checkedTask.task)
-//   }
-//   storeToLocalStorage(){
-//     localStorage.setItem("taskArray", JSON.stringify(this.taskArray))
-//   }
-//   getStoredItems(){
-//     return localStorage.getItem("taskArray")
-//   }
-// }
-// let store = new StoreTask()
-// console.log(store.getStoredItems());
-
-class Tasks {
-  parentId = null
+function getTask(){
+    let titleTaskInputed = prompt("Enter a task title: ")
+    titleTaskInputed;
+    if(titleTaskInputed !== ""){
+      return titleTaskInputed
+    }else{
+      throw new Error('enter a valid task title')
+    }
+}
+let taskName = getTask();
+interface TaskInterface{
+  parentId: null
   id: number
   title: string|null
-  taskArray: (string|null)[]
-  task: string|null
+}
+class Task {
+  public parentId = null
+  public id: number
+  public title: string|null
+  
   constructor(){
-    this.id = 1
-    this.title = ""
-    this.task = ""
-    this.taskArray = []
-  }
-  getTaskTitle(){
-    let taskTitle = prompt('Enter your task title: ')
-    return this.title = taskTitle
-  }
-  CheckTaskValidity(){
-    if(this.title !== ""){
-      return this.task = this.title
+    this.id = 0
+    this.title = null
+  } 
+  toJson():TaskInterface{
+    return {
+      parentId: this.parentId,
+      id: this.id,
+      title: this.title
     }
   }
-  storeTasks(){
-    this.taskArray.push(this.task)
-    localStorage.setItem("taskArray", JSON.stringify(this.taskArray))
-  }
-  getTasks(){
-    return localStorage.getItem("taskArray")
-  }
 }
-let tasks = new Tasks()
-console.log(tasks.getTaskTitle());
-// console.log(tasks.CheckTaskValidity());
-// console.log(tasks.storeTasks());
-console.log(tasks.getTasks());
+let task = new Task()
+// put all these task callings in a function
+task.id = task.id++
+task.parentId = null;
+task.title = taskName
+const taskJSON = task.toJson()
+console.log(taskJSON)
+
+localStorage.setItem("taskJson", JSON.stringify(taskJSON))
+const store = localStorage.getItem("taskJson")
+const taskStore = JSON.parse(store as string) as TaskInterface
+console.log(typeof store,  taskStore);
+
 
