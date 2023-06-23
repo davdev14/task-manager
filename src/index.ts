@@ -9,8 +9,12 @@ function generateId(){
 }
 
 function getTask(){
-    let titleTaskInputed = prompt("Enter a task title: ")
+  let titleTaskInputed = prompt("Enter a task title: ")
+  if(titleTaskInputed !== null){
     return titleTaskInputed;
+  }else{
+    throw new Error("enter a valid task title")
+  }
 }
 
 const taskName = getTask();
@@ -31,41 +35,36 @@ class Task {
     this.title = taskName
   } 
 }
+let task = new Task()
 
-function createNewTask(): TaskObjectInterface{
-  let task = new Task()
-  if(task.title == null){
-    throw new Error("enter a valid task title")
-  }
-  return {
+let taskObj: TaskObjectInterface = {
   id: task.id,
   parentId: task.parentId,
   title: task.title
-  }
 }
 
-console.log(createNewTask());
+let arr: TaskObjectInterface[] = []
+arr.push(taskObj)
 
+// class StoreArrayOfObjects {
+//   private tasksObject: TaskObjectInterface
+//   private tasksArray: TaskObjectInterface[]
+//   constructor(){
+//     this.tasksObject = {
+//       id: task.id,
+//       parentId: task.parentId,
+//       title: task.title
+//     }
+//     this.tasksArray = []
+//   }
+//   storeInArray(){
+//     this.tasksArray.push(this.tasksObject)
+//     return this.tasksArray
+//   }
+// }
+// let arrayStore = new StoreArrayOfObjects()
 
-class StoreArrayOfObjects {
-  private tasksObject: TaskObjectInterface
-  private tasksArray: TaskObjectInterface[]
-  constructor(){
-    this.tasksObject = {
-      id: createNewTask().id,
-      parentId: createNewTask().parentId,
-      title: createNewTask().title
-    }
-    this.tasksArray = []
-  }
-  storeInArray(){
-    this.tasksArray.push(this.tasksObject)
-    return this.tasksArray
-  }
-}
-let arrayStore = new StoreArrayOfObjects()
-
-localStorage.setItem("TaskStore", JSON.stringify(arrayStore.storeInArray()))
+localStorage.setItem("TaskStore", JSON.stringify(arr))
 const taskStore = localStorage.getItem("TaskStore")
 const tasksArray = JSON.parse(taskStore as string);
 console.log(tasksArray);
