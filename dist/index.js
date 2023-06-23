@@ -1,5 +1,4 @@
 import { v4 } from 'uuid';
-const addTaskBtn = document.getElementById("add-task");
 function generateId() {
     return v4();
 }
@@ -21,32 +20,21 @@ class Task {
     }
 }
 let task = new Task();
-let taskObj = {
-    id: task.id,
-    parentId: task.parentId,
-    title: task.title
-};
-let arr = [];
-arr.push(taskObj);
-// class StoreArrayOfObjects {
-//   private tasksObject: TaskObjectInterface
-//   private tasksArray: TaskObjectInterface[]
-//   constructor(){
-//     this.tasksObject = {
-//       id: task.id,
-//       parentId: task.parentId,
-//       title: task.title
-//     }
-//     this.tasksArray = []
-//   }
-//   storeInArray(){
-//     this.tasksArray.push(this.tasksObject)
-//     return this.tasksArray
-//   }
+console.log(task);
+// let taskObj: TaskObjectInterface = {
+//   id: task.id,
+//   parentId: task.parentId,
+//   title: task.title
 // }
-// let arrayStore = new StoreArrayOfObjects()
+let arr = [];
+let localStore = localStorage.getItem("TaskStore");
+if (localStore) {
+    arr = JSON.parse(localStore);
+    arr.push(task);
+}
+else {
+    arr.push(task);
+}
 localStorage.setItem("TaskStore", JSON.stringify(arr));
-const taskStore = localStorage.getItem("TaskStore");
-const tasksArray = JSON.parse(taskStore);
-console.log(tasksArray);
-// addTaskBtn?.addEventListener("click", () => getTask())
+const taskStore = JSON.parse(localStorage.getItem("TaskStore"));
+console.log(taskStore);
