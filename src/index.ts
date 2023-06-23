@@ -15,31 +15,30 @@ function getTask(){
 
 const taskName = getTask();
 
+enum taskStatus {
+  active = "active",
+  terminated = "terminated"
+}
 interface TaskObjectInterface{
   parentId: null
   id: string
   title: string|null
+  status: taskStatus
 }
 
-class Task {
-  public parentId = null
-  public id: string
-  public title: string|null
+class Task implements TaskObjectInterface{
+  parentId = null
+  id: string
+  title: string|null
+  status: taskStatus
   
   constructor(){
     this.id = generateId()
     this.title = taskName
+    this.status = taskStatus.active
   } 
 }
 let task = new Task()
-console.log(task);
-
-
-// let taskObj: TaskObjectInterface = {
-//   id: task.id,
-//   parentId: task.parentId,
-//   title: task.title
-// }
 
 let arr: TaskObjectInterface[] = []
 
@@ -55,6 +54,30 @@ if(localStore){
 localStorage.setItem("TaskStore", JSON.stringify(arr))
 const taskStore: TaskObjectInterface[] = JSON.parse(localStorage.getItem("TaskStore") as string)
 console.log(taskStore);
+
+
+
+
+function showTasks(){
+  taskStore.map(task => console.log(task.title))
+}
+showTasks()
+
+function TerminateTask(index: number){
+  taskStore[index].status = taskStatus.terminated
+}
+TerminateTask(1)
+
+// function deleteTask(val: number){
+//   const store:TaskObjectInterface[] = JSON.parse(localStorage.getItem("TaskStore") as string)
+//   store.filter((item, index) => {
+//     let i = index
+//     i = val
+//     return item !==  i
+//   })
+// }
+// deleteTask()
+
 
 
 

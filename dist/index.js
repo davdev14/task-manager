@@ -12,20 +12,20 @@ function getTask() {
     }
 }
 const taskName = getTask();
+var taskStatus;
+(function (taskStatus) {
+    taskStatus["active"] = "active";
+    taskStatus["terminated"] = "terminated";
+})(taskStatus || (taskStatus = {}));
 class Task {
     constructor() {
         this.parentId = null;
         this.id = generateId();
         this.title = taskName;
+        this.status = taskStatus.active;
     }
 }
 let task = new Task();
-console.log(task);
-// let taskObj: TaskObjectInterface = {
-//   id: task.id,
-//   parentId: task.parentId,
-//   title: task.title
-// }
 let arr = [];
 let localStore = localStorage.getItem("TaskStore");
 if (localStore) {
@@ -38,3 +38,17 @@ else {
 localStorage.setItem("TaskStore", JSON.stringify(arr));
 const taskStore = JSON.parse(localStorage.getItem("TaskStore"));
 console.log(taskStore);
+function showTasks() {
+    taskStore.map(task => console.log(task.title));
+}
+showTasks();
+function TerminateTask(index) {
+    taskStore[index].status = taskStatus.terminated;
+}
+TerminateTask(1);
+function deleteTask(index) {
+    const store = JSON.parse(localStorage.getItem("TaskStore"));
+    console.log(store);
+    localStorage.removeItem(index);
+}
+deleteTask("0");
