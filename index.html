@@ -11,6 +11,17 @@
   </style>
 </head>
 <body>
-  <script src="./dist/index.js"></script>
+  <div>
+    <button type="button" id="add-task">add task</button>
+  </div>
+  <script type="importmap">
+    {
+      "imports": {
+        "uuid": "https://cdn.skypack.dev/uuid"
+      }
+    }
+  </script>
+  <script>var exports = {};</script>
+  <script type="module" src="./dist/index.js"></script>
 </body>
 </html>

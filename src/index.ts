@@ -1,46 +1,77 @@
+import {v4} from 'uuid';
+
+const addTaskBtn = document.getElementById("add-task")
+
+
+
+function generateId(){
+  return v4();
+}
+
 function getTask(){
     let titleTaskInputed = prompt("Enter a task title: ")
-    titleTaskInputed;
-    if(titleTaskInputed !== ""){
-      return titleTaskInputed
-    }else{
-      throw new Error('enter a valid task title')
-    }
+    return titleTaskInputed;
 }
-let taskName = getTask();
-interface TaskInterface{
+
+const taskName = getTask();
+
+interface TaskObjectInterface{
   parentId: null
-  id: number
+  id: string
   title: string|null
 }
+
 class Task {
   public parentId = null
-  public id: number
+  public id: string
   public title: string|null
   
   constructor(){
-    this.id = 0
-    this.title = null
+    this.id = generateId()
+    this.title = taskName
   } 
-  toJson():TaskInterface{
-    return {
-      parentId: this.parentId,
-      id: this.id,
-      title: this.title
-    }
+}
+
+function createNewTask(): TaskObjectInterface{
+  let task = new Task()
+  if(task.title == null){
+    throw new Error("enter a valid task title")
+  }
+  return {
+  id: task.id,
+  parentId: task.parentId,
+  title: task.title
   }
 }
-let task = new Task()
-// put all these task callings in a function
-task.id = task.id++
-task.parentId = null;
-task.title = taskName
-const taskJSON = task.toJson()
-console.log(taskJSON)
 
-localStorage.setItem("taskJson", JSON.stringify(taskJSON))
-const store = localStorage.getItem("taskJson")
-const taskStore = JSON.parse(store as string) as TaskInterface
-console.log(typeof store,  taskStore);
+console.log(createNewTask());
+
+
+class StoreArrayOfObjects {
+  private tasksObject: TaskObjectInterface
+  private tasksArray: TaskObjectInterface[]
+  constructor(){
+    this.tasksObject = {
+      id: createNewTask().id,
+      parentId: createNewTask().parentId,
+      title: createNewTask().title
+    }
+    this.tasksArray = []
+  }
+  storeInArray(){
+    this.tasksArray.push(this.tasksObject)
+    return this.tasksArray
+  }
+}
+let arrayStore = new StoreArrayOfObjects()
+
+localStorage.setItem("TaskStore", JSON.stringify(arrayStore.storeInArray()))
+const taskStore = localStorage.getItem("TaskStore")
+const tasksArray = JSON.parse(taskStore as string);
+console.log(tasksArray);
+
+// addTaskBtn?.addEventListener("click", () => getTask())
+
+
 
 
