@@ -36,7 +36,7 @@ else {
     arr.push(task);
 }
 localStorage.setItem("TaskStore", JSON.stringify(arr));
-const taskStore = JSON.parse(localStorage.getItem("TaskStore"));
+let taskStore = JSON.parse(localStorage.getItem("TaskStore"));
 console.log(taskStore);
 function showTasks() {
     taskStore.map(task => console.log(task.title));
@@ -45,10 +45,11 @@ showTasks();
 function TerminateTask(index) {
     taskStore[index].status = taskStatus.terminated;
 }
-TerminateTask(1);
-function deleteTask(index) {
-    const store = JSON.parse(localStorage.getItem("TaskStore"));
-    console.log(store);
-    localStorage.removeItem(index);
+TerminateTask(0);
+function deleteTask(array, taskToDelete) {
+    taskStore = array.filter((_, index) => index !== taskToDelete);
+    localStorage.setItem("TaskStore", JSON.stringify(taskStore));
+    const newtaskStore = JSON.parse(localStorage.getItem("TaskStore"));
+    return newtaskStore;
 }
-deleteTask("0");
+console.log(deleteTask(taskStore, 4));

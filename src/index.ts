@@ -52,31 +52,28 @@ if(localStore){
 }
 
 localStorage.setItem("TaskStore", JSON.stringify(arr))
-const taskStore: TaskObjectInterface[] = JSON.parse(localStorage.getItem("TaskStore") as string)
+let taskStore: TaskObjectInterface[] = JSON.parse(localStorage.getItem("TaskStore") as string)
 console.log(taskStore);
 
 
-
-
 function showTasks(){
-  taskStore.map(task => console.log(task.title))
+  taskStore.map(task => console.log(`${task.title}: ${task.status}`))
 }
 showTasks()
 
 function TerminateTask(index: number){
   taskStore[index].status = taskStatus.terminated
 }
-TerminateTask(1)
+TerminateTask(0)
 
-// function deleteTask(val: number){
-//   const store:TaskObjectInterface[] = JSON.parse(localStorage.getItem("TaskStore") as string)
-//   store.filter((item, index) => {
-//     let i = index
-//     i = val
-//     return item !==  i
-//   })
-// }
-// deleteTask()
+function deleteTask(array: TaskObjectInterface[], taskToDelete: number): TaskObjectInterface[] {
+  taskStore = array.filter((_,index) => index !== taskToDelete);
+  localStorage.setItem("TaskStore", JSON.stringify(taskStore))
+  const newtaskStore = JSON.parse(localStorage.getItem("TaskStore") as string)
+  return newtaskStore
+}
+// console.log(deleteTask(taskStore, 4));
+
 
 
 
