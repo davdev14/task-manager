@@ -61,10 +61,10 @@ function showTasks(){
 }
 showTasks()
 
-function TerminateTask(index: number){
+function terminateTask(index: number){
   taskStore[index].status = taskStatus.terminated
 }
-TerminateTask(0)
+terminateTask(0)
 
 function deleteTask(array: TaskObjectInterface[], taskToDelete: number): TaskObjectInterface[] {
   taskStore = array.filter((_,index) => index !== taskToDelete);
